@@ -13,3 +13,11 @@ export async function fetchFoodFirstLetter(primeiraLetra: string) {
   const letterData = await response.json();
   return letterData;
 }
+export const mealsFetch12 = async () => {
+  const api = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const limit = 12;
+  const meals = await fetch(`${api}&limit=${limit}`);
+  const mealsJson = await meals.json();
+  const limitedResults = mealsJson.meals.slice(0, 12);
+  return limitedResults;
+};
