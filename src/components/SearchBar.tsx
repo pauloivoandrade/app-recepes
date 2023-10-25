@@ -1,10 +1,18 @@
 import React, { useState, ChangeEvent } from 'react';
+
 import {
   fetchFoodIngredientsData,
   fetchFoodNameData,
   fetchFoodFirstLetter } from '../services/apiFood';
+import {
+  fetchDrinkIngredientsData,
+  fetchDrinkNameData,
+  fetchDrinkFirstLetter } from '../services/apiDrinks';
 
-function SearchBar() {
+interface SearchBarProps {
+  searchContext: 'food' | 'drink';
+}
+function SearchBar({ searchContext }: SearchBarProps) {
   const [searchType,
     setSearchType] = useState<'ingredient' | 'name' | 'first-letter'>('ingredient');
   const [searchValue, setSearchValue] = useState<string>('');
@@ -18,22 +26,37 @@ function SearchBar() {
   };
 
   const handleSearch = async () => {
-    if (searchType === 'ingredient') {
-      const ingredientData = await fetchFoodIngredientsData(searchValue);
-      console.log(ingredientData);
-    } else if (searchType === 'name') {
-      const nomeData = await fetchFoodNameData(searchValue);
-      console.log(nomeData);
-    } else if (searchType === 'first-letter') {
-      if (searchValue.length === 1) {
-        const letterData = await fetchFoodFirstLetter(searchValue);
-        console.log(letterData);
-      } else {
-        window.alert('Your search must have only 1 (one) character');
-      }
-    }
-  };
+    let data;
 
+    switch (searchType) {
+      case 'ingredient':
+        data = searchContext === 'drink'
+          ? await fetchDrinkIngredientsData(searchValue)
+          : await fetchFoodIngredientsData(searchValue);
+        break;
+
+      case 'name':
+        data = searchContext === 'drink'
+          ? await fetchDrinkNameData(searchValue)
+          : await fetchFoodNameData(searchValue);
+        break;
+
+      case 'first-letter':
+        if (searchValue.length !== 1) {
+          window.alert('Your search must have only 1 (one) character');
+          return;
+        }
+        data = searchContext === 'drink'
+          ? await fetchDrinkFirstLetter(searchValue)
+          : await fetchFoodFirstLetter(searchValue);
+        break;
+
+      default:
+        break;
+    }
+
+    console.log(data);
+  };
   return (
     <div className="search-bar">
       <input

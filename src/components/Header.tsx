@@ -45,10 +45,10 @@ export function Header() {
     }
     return null;
   };
-
-  const renderSearchComponent = () => (
-    showSearchBar ? <SearchBar /> : null
-  );
+  const renderSearchComponent = () => {
+    const searchContext = location.pathname === '/meals' ? 'food' : 'drink';
+    return showSearchBar ? <SearchBar searchContext={ searchContext } /> : null;
+  };
 
   const renderTitle = () => {
     switch (location.pathname) {
