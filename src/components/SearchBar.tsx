@@ -1,21 +1,28 @@
 import React, { useState, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   fetchFoodIngredientsData,
   fetchFoodNameData,
-  fetchFoodFirstLetter } from '../services/apiFood';
+  fetchFoodFirstLetter,
+} from '../services/apiFood';
 import {
   fetchDrinkIngredientsData,
   fetchDrinkNameData,
-  fetchDrinkFirstLetter } from '../services/apiDrinks';
+  fetchDrinkFirstLetter,
+} from '../services/apiDrinks';
 
 interface SearchBarProps {
   searchContext: 'food' | 'drink';
 }
+
 function SearchBar({ searchContext }: SearchBarProps) {
+  const navigate = useNavigate();
+
   const [searchType,
     setSearchType] = useState<'ingredient' | 'name' | 'first-letter'>('ingredient');
   const [searchValue, setSearchValue] = useState<string>('');
+  const [recipes, setRecipes] = useState<any[]>([]);
 
   const handleSearchTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchType(e.target.value as 'ingredient' | 'name' | 'first-letter');
@@ -55,8 +62,19 @@ function SearchBar({ searchContext }: SearchBarProps) {
         break;
     }
 
-    console.log(data);
+    if (data && data.length === 1) {
+      if (searchContext === 'drink') {
+        navigate(`/drinks/${data[0].idDrink}`);
+      } else if (searchContext === 'food') {
+        navigate(`/meals/${data[0].idMeal}`);
+      }
+    } else if (data && data.length > 1) {
+      setRecipes(data.slice(0, 12));
+    } else {
+      window.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
   };
+
   return (
     <div className="search-bar">
       <input
@@ -103,6 +121,26 @@ function SearchBar({ searchContext }: SearchBarProps) {
       <button data-testid="exec-search-btn" onClick={ handleSearch }>
         Search
       </button>
+      <div className="recipe-list">
+        {recipes.map((recipe, index) => (
+          <div
+            key={ index }
+            data-testid={ `${index}-recipe-card` }
+            className="recipe-card"
+          >
+            <img
+              src={
+                searchContext === 'drink' ? recipe.strDrinkThumb : recipe.strMealThumb
+}
+              alt={ searchContext === 'drink' ? recipe.strDrink : recipe.strMeal }
+              data-testid={ `${index}-card-img` }
+            />
+            <p data-testid={ `${index}-card-name` }>
+              {searchContext === 'drink' ? recipe.strDrink : recipe.strMeal}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
