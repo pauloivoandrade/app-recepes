@@ -4,12 +4,11 @@ import { Login } from './components/Login';
 import { DoneRecipes } from './components/DoneRecipes';
 import { FavoriteRecipes } from './components/FavoriteRecipes';
 import { Profile } from './components/Profile';
-import { Drinks } from './components/Drinks';
-import { Meals } from './components/Meals';
 import { LayoutHF } from './components/LayoutHF';
 import { LayoutH } from './components/LayoutH';
 import { DetailsCard } from './components/DetailsCard';
 import { ContextProvider } from './context/maincontext-provider';
+import { Recipes } from './components/Recipes';
 
 function App() {
   return (
@@ -17,8 +16,8 @@ function App() {
       <Routes>
         <Route path="/" element={ <Login /> } />
         <Route element={ <LayoutHF /> }>
-          <Route path="/meals" element={ <Meals /> } />
-          <Route path="/drinks" element={ <Drinks /> } />
+          <Route path="/meals" element={ <Recipes /> } />
+          <Route path="/drinks" element={ <Recipes /> } />
           <Route path="/profile" element={ <Profile /> } />
         </Route>
         <Route element={ <LayoutH /> }>
