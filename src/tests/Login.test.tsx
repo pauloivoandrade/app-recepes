@@ -1,19 +1,17 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
 import App from '../App';
+import renderWithRouter from './helpers/renderWithRouter';
 
 test('Testa o componente Login', async () => {
-  render(
-    <MemoryRouter>
-      <App />
-    </MemoryRouter>,
-  );
+  renderWithRouter(<App />);
   const emailInput = screen.getByTestId('email-input');
   const passwordInput = screen.getByTestId('password-input');
   const loginSubmitBtn = screen.getByTestId('login-submit-btn');
+  expect(loginSubmitBtn).toBeDisabled();
   await userEvent.type(emailInput, 'ivan@gmail.com');
   await userEvent.type(passwordInput, 'lalalala');
   expect(loginSubmitBtn).toBeEnabled();
   await userEvent.click(loginSubmitBtn);
+  expect(window.location.pathname).toBe('/meals');
 });
