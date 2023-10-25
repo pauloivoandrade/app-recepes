@@ -13,3 +13,11 @@ export async function fetchDrinkFirstLetter(primeiraLetra: string) {
   const letterData = await response.json();
   return letterData;
 }
+export const drinksFetch12 = async () => {
+  const api = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  const limit = 12;
+  const drinks = await fetch(`${api}&limit=${limit}`);
+  const drinksJson = await drinks.json();
+  const limitedResults = drinksJson.drinks.slice(0, 12);
+  return limitedResults;
+};
