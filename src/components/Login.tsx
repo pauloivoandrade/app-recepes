@@ -10,6 +10,8 @@ export function Login() {
   const isPasswordValid = passwordInput.length > 6;
 
   const handleClick = () => {
+    const userEmail = { email: emailInput };
+    localStorage.setItem('user', JSON.stringify(userEmail));
     navigate('/meals');
   };
 
