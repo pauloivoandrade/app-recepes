@@ -1,0 +1,21 @@
+.footer {
+  background-color: #7b93e2;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  position: fixed;
+  width: 100%;
+  z-index: 8000;
+}
+
+.footer button {
+  background-color: transparent;
+  border: none;
+}
+
+.footer button:hover {
+  background-color: rgb(183, 174, 224);
+  border-bottom: 1px solid rgb(2, 1, 5);
+  border-radius: 4px;
+}
