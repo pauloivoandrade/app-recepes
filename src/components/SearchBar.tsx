@@ -61,15 +61,16 @@ function SearchBar({ searchContext }: SearchBarProps) {
       default:
         break;
     }
+    const results = searchContext === 'drink' ? data.drinks : data.meals;
 
-    if (data && data.length === 1) {
+    if (results && results.length === 1) {
       if (searchContext === 'drink') {
-        navigate(`/drinks/${data[0].idDrink}`);
+        navigate(`/drinks/${results[0].idDrink}`);
       } else if (searchContext === 'food') {
-        navigate(`/meals/${data[0].idMeal}`);
+        navigate(`/meals/${results[0].idMeal}`);
       }
-    } else if (data && data.length > 1) {
-      setRecipes(data.slice(0, 12));
+    } else if (results && results.length > 1) {
+      setRecipes(results.slice(0, 12));
     } else {
       window.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
