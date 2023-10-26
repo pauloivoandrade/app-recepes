@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar'; // Ajuste o caminho do import se necessário
 
 export function Header() {
   const location = useLocation();
@@ -44,10 +45,10 @@ export function Header() {
     }
     return null;
   };
-
-  const renderSearchInput = () => (
-    showSearchBar ? <input type="text" data-testid="search-input" /> : null
-  );
+  const renderSearchComponent = () => {
+    const searchContext = location.pathname === '/meals' ? 'food' : 'drink';
+    return showSearchBar ? <SearchBar searchContext={ searchContext } /> : null;
+  };
 
   const renderTitle = () => {
     switch (location.pathname) {
@@ -80,7 +81,7 @@ export function Header() {
     <div className="header">
       {renderProfileIcon()}
       {renderSearchIcon()}
-      {renderSearchInput()}
+      {renderSearchComponent()}
       <h1 data-testid="page-title">{renderTitle()}</h1>
     </div>
   );

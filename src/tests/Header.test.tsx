@@ -60,7 +60,7 @@ describe('Header', () => {
     expect(screen.getByTestId(SEARCH_INPUT)).toBeInTheDocument();
   });
 
-  it('Toggle search bar with keyboard interaction', () => {
+  it('Alternar barra de pesquisa ', () => {
     renderWithRouter(<App />, { route: '/meals' });
     const searchBtn = screen.getByTestId(SEARCH_BTN_TEST_ID);
     fireEvent.keyDown(searchBtn, { key: 'Enter' });
