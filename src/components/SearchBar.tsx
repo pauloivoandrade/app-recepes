@@ -60,7 +60,7 @@ function SearchBar({ searchContext }: SearchBarProps) {
 
   async function handleSearch() {
     const data = await fetchDataBasedOnSearch();
-    if (!data) return; // Return early if no data or alert was shown.
+    if (!data) return;
 
     const results = searchContext === 'drink' ? data.drinks : data.meals;
 
