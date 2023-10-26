@@ -32,35 +32,36 @@ function SearchBar({ searchContext }: SearchBarProps) {
     setSearchValue(e.target.value);
   };
 
-  const handleSearch = async () => {
-    let data;
-
+  async function fetchDataBasedOnSearch() {
     switch (searchType) {
       case 'ingredient':
-        data = searchContext === 'drink'
-          ? await fetchDrinkIngredientsData(searchValue)
-          : await fetchFoodIngredientsData(searchValue);
-        break;
+        return searchContext === 'drink'
+          ? fetchDrinkIngredientsData(searchValue)
+          : fetchFoodIngredientsData(searchValue);
 
       case 'name':
-        data = searchContext === 'drink'
-          ? await fetchDrinkNameData(searchValue)
-          : await fetchFoodNameData(searchValue);
-        break;
+        return searchContext === 'drink'
+          ? fetchDrinkNameData(searchValue)
+          : fetchFoodNameData(searchValue);
 
       case 'first-letter':
         if (searchValue.length !== 1) {
           window.alert('Your search must have only 1 (one) character');
-          return;
+          return null;
         }
-        data = searchContext === 'drink'
-          ? await fetchDrinkFirstLetter(searchValue)
-          : await fetchFoodFirstLetter(searchValue);
-        break;
+        return searchContext === 'drink'
+          ? fetchDrinkFirstLetter(searchValue)
+          : fetchFoodFirstLetter(searchValue);
 
       default:
-        break;
+        return null;
     }
+  }
+
+  async function handleSearch() {
+    const data = await fetchDataBasedOnSearch();
+    if (!data) return; // Return early if no data or alert was shown.
+
     const results = searchContext === 'drink' ? data.drinks : data.meals;
 
     if (results && results.length === 1) {
@@ -74,7 +75,7 @@ function SearchBar({ searchContext }: SearchBarProps) {
     } else {
       window.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
-  };
+  }
 
   return (
     <div className="search-bar">
