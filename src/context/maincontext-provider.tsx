@@ -2,12 +2,12 @@ import { useState } from 'react';
 import MainContext from './maincontext-context';
 
 export function ContextProvider({ children }: { children: React.ReactNode }) {
-  const [isMeals, setIsMeals] = useState(true);
+  const [recipeFetch, setRecipeFetch] = useState([]);
   return (
     <MainContext.Provider
       value={ {
-        isMeals,
-        setIsMeals,
+        recipeFetch,
+        setRecipeFetch,
       } }
     >
       {children}

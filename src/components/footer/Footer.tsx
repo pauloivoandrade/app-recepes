@@ -4,18 +4,22 @@ import drinkIcon from '../../images/drinkIcon.svg';
 import mealIcon from '../../images/mealIcon.svg';
 import './footer.css';
 import MainContext from '../../context/maincontext-context';
+import { mealsFetch12 } from '../../services/apiFood';
+import { drinksFetch12 } from '../../services/apiDrinks';
 
 export function Footer() {
   const navigate = useNavigate();
-  const { setIsMeals } = useContext(MainContext);
+  const { setRecipeFetch } = useContext(MainContext);
 
-  const handleClickMeals = () => {
-    setIsMeals(true);
+  const handleClickMeals = async () => {
+    const response = await mealsFetch12();
+    setRecipeFetch(response);
     navigate('/meals');
   };
 
-  const handleClickDrinks = () => {
-    setIsMeals(false);
+  const handleClickDrinks = async () => {
+    const response = await drinksFetch12();
+    setRecipeFetch(response);
     navigate('/drinks');
   };
 
