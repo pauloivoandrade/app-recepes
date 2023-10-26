@@ -7,35 +7,6 @@ const SEARCH_INPUT_TEST_ID = 'search-input';
 const INGREDIENT_RADIO_TEST_ID = 'ingredient-search-radio';
 const NAME_RADIO_TEST_ID = 'name-search-radio';
 const FIRST_LETTER_RADIO_TEST_ID = 'first-letter-search-radio';
-const EXEC_SEARCH_BUTTON_TEST_ID = 'exec-search-btn';
-
-const mockComidaResponse = {
-  meals: [{
-    idMeal: '52771',
-    strMeal: 'Spicy Arrabiata Penne',
-    strCategory: 'Vegetarian',
-    strIngredient1: 'penne rigate',
-    strIngredient2: 'olive oil',
-    strIngredient3: 'garlic',
-    strIngredient4: 'chopped tomatoes',
-    strIngredient5: 'red chile flakes',
-    strIngredient6: 'italian seasoning',
-    strIngredient7: 'basil',
-    strIngredient8: 'Parmigiano-Reggiano',
-  }],
-};
-
-const mockBebidaResponse = {
-  drinks: [{
-    idDrink: '11007',
-    strDrink: 'Margarita',
-    strCategory: 'Ordinary Drink',
-    strIngredient1: 'Tequila',
-    strIngredient2: 'Triple sec',
-    strIngredient3: 'Lime juice',
-    strIngredient4: 'Salt',
-  }],
-};
 
 describe('<SearchBar />', () => {
   it('renders search input and radio buttons correctly', () => {
