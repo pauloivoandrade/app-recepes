@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom'; // Importe o MemoryRouter
+import { MemoryRouter } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 
 describe('<SearchBar />', () => {
