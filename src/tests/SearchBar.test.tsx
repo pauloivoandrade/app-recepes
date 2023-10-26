@@ -48,4 +48,17 @@ describe('<SearchBar />', () => {
     expect(nameRadio).not.toBeChecked();
     expect(firstLetterRadio).toBeChecked();
   });
+
+  it('updates searchValue state when input changes', () => {
+    render(
+      <MemoryRouter>
+        <SearchBar searchContext="food" />
+      </MemoryRouter>,
+    );
+
+    const searchInput = screen.getByTestId('search-input');
+    fireEvent.change(searchInput, { target: { value: 'apple' } });
+
+    expect(searchInput).toHaveValue('apple');
+  });
 });
