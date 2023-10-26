@@ -33,7 +33,6 @@ function SearchBar({ searchContext }: SearchBarProps) {
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
-
   async function fetchDataBasedOnSearch() {
     switch (searchType) {
       case 'ingredient':
