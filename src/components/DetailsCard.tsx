@@ -31,7 +31,6 @@ export function DetailsCard({ recipe }: { recipe: any }) {
   if (!recipeDetail) {
     return <div>Loading...</div>;
   }
-console.log(recipeDetail);
 
   const ingredients: string[] = Object.entries(recipeDetail)
     .filter(([key, value]) => key.startsWith('strIngredient') && value)
@@ -113,7 +112,9 @@ console.log(recipeDetail);
             height="360"
             frameBorder="0"
             allowFullScreen
-            src={ recipeDetail.strVideo ? recipeDetail.strVideo.replace('watch?v=', 'embed/') : 'no video vailable' }
+            src={ recipeDetail.strVideo
+              ? recipeDetail.strVideo.replace('watch?v=', 'embed/')
+              : 'no video vailable' }
             title="Embedded Video"
           />
         </div>
