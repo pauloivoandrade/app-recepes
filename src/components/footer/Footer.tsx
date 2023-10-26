@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import drinkIcon from '../../images/drinkIcon.svg';
 import mealIcon from '../../images/mealIcon.svg';
@@ -12,15 +12,15 @@ export function Footer() {
   const { setRecipeFetch } = useContext(MainContext);
 
   const handleClickMeals = async () => {
+    navigate('/meals');
     const response = await mealsFetch12();
     setRecipeFetch(response);
-    navigate('/meals');
   };
 
   const handleClickDrinks = async () => {
+    navigate('/drinks');
     const response = await drinksFetch12();
     setRecipeFetch(response);
-    navigate('/drinks');
   };
 
   return (
