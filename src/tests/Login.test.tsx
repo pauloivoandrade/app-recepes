@@ -4,16 +4,18 @@ import App from '../App';
 import renderWithRouter from './helpers/renderWithRouter';
 
 describe('footer', async () => {
-  renderWithRouter(<App />);
-  const emailInput = screen.getByTestId('email-input');
-  const passwordInput = screen.getByTestId('password-input');
-  const loginSubmitBtn = screen.getByTestId('login-submit-btn');
-  expect(loginSubmitBtn).toBeDisabled();
-  await userEvent.type(emailInput, 'ivan@gmail.com');
-  await userEvent.type(passwordInput, 'lalalala');
-  expect(loginSubmitBtn).toBeEnabled();
-  await userEvent.click(loginSubmitBtn);
-  expect(window.location.pathname).toBe('/meals');
+  it('', async () => {
+    renderWithRouter(<App />);
+    const emailInput = screen.getByTestId('email-input');
+    const passwordInput = screen.getByTestId('password-input');
+    const loginSubmitBtn = screen.getByTestId('login-submit-btn');
+    expect(loginSubmitBtn).toBeDisabled();
+    await userEvent.type(emailInput, 'ivan@gmail.com');
+    await userEvent.type(passwordInput, 'lalalala');
+    expect(loginSubmitBtn).toBeEnabled();
+    await userEvent.click(loginSubmitBtn);
+    expect(window.location.pathname).toBe('/meals');
+  });
 
   it('Redenriza no componente meals e redireciona para drinks/meals', async () => {
     const { user } = renderWithRouter(<App />, { route: '/meals' });
