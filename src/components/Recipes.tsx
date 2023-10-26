@@ -1,31 +1,114 @@
-import { useEffect, useState } from 'react';
-import { mealsFetch12 } from '../services/apiFood';
+import { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { mealsCategories, mealsFetch12, mealsFetchByCategory } from '../services/apiFood';
 import { RecipesCard } from './RecipesCard';
+import MainContext from '../context/maincontext-context';
+import { drinksCategories, drinksFetch12, drinksFetchByCategory }
+  from '../services/apiDrinks';
 
 export function Recipes() {
-  const [recipeFetch, setRecipeFetch] = useState([]);
+  const { recipeFetch, setRecipeFetch } = useContext(MainContext);
+
+  const { pathname } = useLocation();
+  const isMeals = pathname.includes('/meals');
+
+  const [categories, setCategories] = useState([]);
+  const [recipeByCategory, setRecipeByCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   const mealFetch = async () => {
     const response = await mealsFetch12();
     setRecipeFetch(response);
-    return response;
+  };
+
+  const drinkFetch = async () => {
+    const response = await drinksFetch12();
+    setRecipeFetch(response);
   };
 
   useEffect(() => {
-    mealFetch();
+    if (isMeals) {
+      mealFetch();
+      mealsCategoriesFetch();
+    } else {
+      drinkFetch();
+      drinksCategoriesFetch();
+    }
   }, []);
+
+  const mealsCategoriesFetch = async () => {
+    const response = await mealsCategories();
+    setCategories(response);
+  };
+
+  const drinksCategoriesFetch = async () => {
+    const response = await drinksCategories();
+    setCategories(response);
+  };
+
+  const handleCategory = async (category: string) => {
+    if (isMeals) {
+      if (category !== selectedCategory) {
+        const response = await mealsFetchByCategory(category);
+        setRecipeByCategory(response);
+        setSelectedCategory(category);
+      } else {
+        const response = await mealsFetch12();
+        setRecipeByCategory(response);
+        setSelectedCategory('All');
+      }
+    } else if (category !== selectedCategory) {
+      const response = await drinksFetchByCategory(category);
+      setRecipeByCategory(response);
+      setSelectedCategory(category);
+    } else {
+      const response = await drinksFetch12();
+      setRecipeByCategory(response);
+      setSelectedCategory('All');
+    }
+  };
+
+  const handleAllBtn = async () => {
+    setRecipeByCategory([]);
+    setSelectedCategory('All');
+  };
 
   return (
     <div>
-      <h1>
-        { recipeFetch?.map((element: any, index: number) => (
-          <RecipesCard
+      <p>
+        { categories.map((element: any, index: number) => (
+          <button
             key={ index }
-            index={ index }
-            recipe={ element }
-          />
+            data-testid={ `${element.strCategory}-category-filter` }
+            type="button"
+            onClick={ () => handleCategory(element.strCategory) }
+          >
+            {element.strCategory}
+          </button>
         )) }
-
+        <button
+          data-testid="All-category-filter"
+          type="button"
+          onClick={ () => handleAllBtn() }
+        >
+          All
+        </button>
+      </p>
+      <h1>
+        { recipeByCategory.length > 0 ? recipeByCategory
+          .map((element: any, index: number) => (
+            <RecipesCard
+              key={ index }
+              index={ index }
+              recipe={ element }
+            />
+          )) : recipeFetch.map((element: any, index: number) => (
+            <RecipesCard
+              key={ index }
+              index={ index }
+              recipe={ element }
+            />
+        )) }
       </h1>
     </div>
   );

@@ -1,4 +1,4 @@
 export type ContextType = {
-  isMeals: boolean,
-  setIsMeals: (isMeals: boolean) => void,
+  recipeFetch: any,
+  setRecipeFetch: (recipeFetch: any) => void,
 };
