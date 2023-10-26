@@ -5,13 +5,14 @@ import { act } from 'react-dom/test-utils';
 import jest from 'jest-mock';
 import SearchBar from '../components/SearchBar';
 import * as apiFood from '../services/apiFood';
+import * as apiDrinks from '../services/apiDrinks';
 
 const SEARCH_INPUT_TEST_ID = 'search-input';
 const INGREDIENT_RADIO_TEST_ID = 'ingredient-search-radio';
 const NAME_RADIO_TEST_ID = 'name-search-radio';
 const FIRST_LETTER_RADIO_TEST_ID = 'first-letter-search-radio';
 const EXEX_SEARCH_BTN_TEST = 'exec-search-btn';
-const EXEC_SEARCH_BUTTON_TEST_ID = 'exec-search-button-id';
+const EXEC_SEARCH_BUTTON_TEST_ID = 'exec-search-button';
 
 describe('<SearchBar />', () => {
   it('renders search input and radio buttons correctly', () => {
@@ -139,5 +140,25 @@ describe('<SearchBar />', () => {
 
     alertSpy.mockRestore();
   });
+  it('navigates to the correct route for drinks when a single recipe is found', async () => {
+    jest.spyOn(apiDrinks, 'fetchDrinkNameData').mockResolvedValueOnce({ drinks: [{ idDrink: '5678', strDrink: 'Cocktail', strDrinkThumb: 'img.jpg' }] });
+
+    render(
+      <MemoryRouter>
+        <SearchBar searchContext="drink" />
+      </MemoryRouter>,
+    );
+
+    const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
+    const nameRadio = screen.getByTestId(NAME_RADIO_TEST_ID);
+    const searchInput = screen.getByTestId(SEARCH_INPUT_TEST_ID);
+
+    fireEvent.click(nameRadio);
+    fireEvent.change(searchInput, { target: { value: 'Cocktail' } });
+    await act(async () => {
+      fireEvent.click(searchButton);
+    });
+  });
+  // ......................
   // ......................
 });
