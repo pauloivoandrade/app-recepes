@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -11,6 +11,7 @@ import {
   fetchDrinkNameData,
   fetchDrinkFirstLetter,
 } from '../services/apiDrinks';
+import MainContext from '../context/maincontext-context';
 
 interface SearchBarProps {
   searchContext: 'food' | 'drink';
@@ -18,11 +19,12 @@ interface SearchBarProps {
 
 function SearchBar({ searchContext }: SearchBarProps) {
   const navigate = useNavigate();
+  const { setRecipeFetch } = useContext(MainContext);
 
   const [searchType,
     setSearchType] = useState<'ingredient' | 'name' | 'first-letter'>('ingredient');
   const [searchValue, setSearchValue] = useState<string>('');
-  const [recipes, setRecipes] = useState<any[]>([]);
+  const [recipes] = useState<any[]>([]);
 
   const handleSearchTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchType(e.target.value as 'ingredient' | 'name' | 'first-letter');
@@ -31,7 +33,6 @@ function SearchBar({ searchContext }: SearchBarProps) {
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
-
   async function fetchDataBasedOnSearch() {
     switch (searchType) {
       case 'ingredient':
@@ -71,7 +72,7 @@ function SearchBar({ searchContext }: SearchBarProps) {
         navigate(`/meals/${results[0].idMeal}`);
       }
     } else if (results && results.length > 1) {
-      setRecipes(results.slice(0, 12));
+      setRecipeFetch(results.slice(0, 12));
     } else {
       window.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
