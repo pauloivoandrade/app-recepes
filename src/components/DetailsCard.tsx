@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 
-export function DetailsCard({ recipe }: { recipe: any }) {
+export function DetailsCard() {
   const { pathname } = useLocation();
   const { recipeID } = useParams();
   const isMeals = pathname.includes('/meals');
@@ -34,11 +34,11 @@ export function DetailsCard({ recipe }: { recipe: any }) {
 
   const ingredients: string[] = Object.entries(recipeDetail)
     .filter(([key, value]) => key.startsWith('strIngredient') && value)
-    .map(([key, value]) => value);
+    .map(([value]) => value);
 
   const measures: string[] = Object.entries(recipeDetail)
     .filter(([key, value]) => key.startsWith('strMeasure') && value)
-    .map(([key, value]) => value);
+    .map(([value]) => value);
 
   return (
     <div>
