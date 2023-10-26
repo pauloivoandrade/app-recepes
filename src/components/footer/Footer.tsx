@@ -1,26 +1,28 @@
-import { useContext } from 'react';
+// import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import drinkIcon from '../../images/drinkIcon.svg';
 import mealIcon from '../../images/mealIcon.svg';
 import './footer.css';
-import MainContext from '../../context/maincontext-context';
-import { mealsFetch12 } from '../../services/apiFood';
-import { drinksFetch12 } from '../../services/apiDrinks';
+// import MainContext from '../../context/maincontext-context';
+// import { mealsFetch12 } from '../../services/apiFood';
+// import { drinksFetch12 } from '../../services/apiDrinks';
 
 export function Footer() {
   const navigate = useNavigate();
-  const { setRecipeFetch } = useContext(MainContext);
+  // const { setRecipeFetch } = useContext(MainContext);
 
   const handleClickMeals = async () => {
     navigate('/meals');
-    const response = await mealsFetch12();
-    setRecipeFetch(response);
+    window.location.reload();
+    // const response = await mealsFetch12();
+    // setRecipeFetch(response);
   };
 
   const handleClickDrinks = async () => {
     navigate('/drinks');
-    const response = await drinksFetch12();
-    setRecipeFetch(response);
+    window.location.reload();
+    // const response = await drinksFetch12();
+    // setRecipeFetch(response);
   };
 
   return (
