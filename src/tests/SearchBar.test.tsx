@@ -12,7 +12,6 @@ const INGREDIENT_RADIO_TEST_ID = 'ingredient-search-radio';
 const NAME_RADIO_TEST_ID = 'name-search-radio';
 const FIRST_LETTER_RADIO_TEST_ID = 'first-letter-search-radio';
 const EXEX_SEARCH_BTN_TEST = 'exec-search-btn';
-const EXEC_SEARCH_BUTTON_TEST_ID = 'exec-search-button';
 
 describe('<SearchBar />', () => {
   it('renders search input and radio buttons correctly', () => {
@@ -127,7 +126,7 @@ describe('<SearchBar />', () => {
 
     const nameRadio = screen.getByTestId(NAME_RADIO_TEST_ID);
     const searchInput = screen.getByTestId(SEARCH_INPUT_TEST_ID);
-    const searchButton = screen.getByTestId('exec-search-btn');
+    const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
 
     fireEvent.click(nameRadio);
     fireEvent.change(searchInput, { target: { value: 'NonExistentDish' } });
