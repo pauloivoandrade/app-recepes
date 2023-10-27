@@ -100,8 +100,6 @@ describe('<SearchBar />', () => {
       fireEvent.click(searchButton);
     });
   });
-
-  // Testes compartilhados para pesquisa por ingredientes e primeira letra
   describe('Shared ingredient and first letter search tests', () => {
     it('fetches food data when search type is ingredient', async () => {
       const mockFoodData = {
