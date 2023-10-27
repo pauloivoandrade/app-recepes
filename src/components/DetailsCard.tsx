@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
+import { CarouselCard } from './CarouselCard';
 
 export function DetailsCard() {
   const { pathname } = useLocation();
@@ -7,11 +8,9 @@ export function DetailsCard() {
   const isMeals = pathname.includes('/meals');
 
   const [recipeDetail, setRecipesDetail] = useState<any | null>(null);
-  const [recommended, setRecommended] = useState<any | null>(null);
 
   useEffect(() => {
     let fetchFunction;
-    let fetchRecommended;
 
     if (isMeals) {
       fetchFunction = async () => {
@@ -19,26 +18,15 @@ export function DetailsCard() {
         const mealsJson = await meals.json();
         setRecipesDetail(mealsJson.meals[0]);
       };
-      fetchRecommended = async () => {
-        const drinks = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-        const drinksJson = await drinks.json();
-        setRecommended(drinksJson);
-      };
     } else {
       fetchFunction = async () => {
         const drinks = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
         const drinksJson = await drinks.json();
         setRecipesDetail(drinksJson.drinks[0]);
       };
-      fetchRecommended = async () => {
-        const drinks = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-        const drinksJson = await drinks.json();
-        setRecommended(drinksJson);
-      };
     }
 
     fetchFunction();
-    fetchRecommended();
   }, [isMeals, recipeID]);
 
   if (!recipeDetail) {
@@ -93,6 +81,7 @@ export function DetailsCard() {
             title="Embedded Video"
           />
           <h3>Recomended</h3>
+          <CarouselCard />
 
         </div>
       ) : (
@@ -140,6 +129,7 @@ export function DetailsCard() {
               : 'no video vailable' }
             title="Embedded Video"
           />
+          <CarouselCard />
         </div>
       )}
     </div>
