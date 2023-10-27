@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
-import SearchBar from './SearchBar'; // Ajuste o caminho do import se necessário
+import SearchBar from './SearchBar';
 
 export function Header() {
   const location = useLocation();
