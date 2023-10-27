@@ -31,6 +31,7 @@ export function DetailsCard() {
   if (!recipeDetail) {
     return <div>Loading...</div>;
   }
+  console.log(recipeDetail);
 
   const ingredients: string[] = Object.entries(recipeDetail)
     .filter(([key, value]) => key.startsWith('strIngredient') && value)
@@ -54,15 +55,23 @@ export function DetailsCard() {
 
           <h2>Ingredients:</h2>
           <ul>
-            {ingredients.map((ingredient, index) => (
-              <React.Fragment key={ index }>
-                <li data-testid={ `${index}-ingredient-name-and-measure` }>
-                  {measures[index]}
-                  {' '}
-                  {ingredient}
-                </li>
-              </React.Fragment>
-            ))}
+            {Array.from({ length: 20 }, (_, index) => index).map((index) => {
+              const measure = recipeDetail[`strMeasure${index}`];
+              const ingredient = recipeDetail[`strIngredient${index}`];
+              if (measure && ingredient) {
+                return (
+                  <li
+                    key={ index }
+                    data-testid={ `${index - 1}-ingredient-name-and-measure` }
+                  >
+                    {measure}
+                    {' '}
+                    {ingredient}
+                  </li>
+                );
+              }
+              return null;
+            })}
           </ul>
 
           <h2>Instructions:</h2>
@@ -91,17 +100,24 @@ export function DetailsCard() {
 
           <h2>Ingredients:</h2>
           <ul>
-            {ingredients.map((ingredient, index) => (
-              <React.Fragment key={ index }>
-                <li data-testid={ `${index}-ingredient-name-and-measure` }>
-                  {measures[index]}
-                  {' '}
-                  {ingredient}
-                </li>
-              </React.Fragment>
-            ))}
+            {Array.from({ length: 20 }, (_, index) => index).map((index) => {
+              const measure = recipeDetail[`strMeasure${index}`];
+              const ingredient = recipeDetail[`strIngredient${index}`];
+              if (measure && ingredient) {
+                return (
+                  <li
+                    key={ index }
+                    data-testid={ `${index - 1}-ingredient-name-and-measure` }
+                  >
+                    {measure}
+                    {' '}
+                    {ingredient}
+                  </li>
+                );
+              }
+              return null;
+            })}
           </ul>
-
           <h2>Instructions:</h2>
           <p data-testid="instructions">{recipeDetail.strInstructions}</p>
 
