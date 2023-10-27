@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
+import { CarouselCard } from './CarouselCard';
 
 export function DetailsCard() {
   const { pathname } = useLocation();
@@ -32,14 +33,6 @@ export function DetailsCard() {
     return <div>Loading...</div>;
   }
   console.log(recipeDetail);
-
-  const ingredients: string[] = Object.entries(recipeDetail)
-    .filter(([key, value]) => key.startsWith('strIngredient') && value)
-    .map(([value]) => value);
-
-  const measures: string[] = Object.entries(recipeDetail)
-    .filter(([key, value]) => key.startsWith('strMeasure') && value)
-    .map(([value]) => value);
 
   return (
     <div>
@@ -87,6 +80,9 @@ export function DetailsCard() {
             allowFullScreen
             title="Embedded Video"
           />
+          <h3>Recomended</h3>
+          <CarouselCard />
+
         </div>
       ) : (
         <div>
@@ -133,6 +129,7 @@ export function DetailsCard() {
               : 'no video vailable' }
             title="Embedded Video"
           />
+          <CarouselCard />
         </div>
       )}
     </div>
