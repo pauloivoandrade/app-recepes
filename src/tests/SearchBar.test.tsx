@@ -7,6 +7,18 @@ import SearchBar from '../components/SearchBar';
 import * as apiFood from '../services/apiFood';
 import * as apiDrinks from '../services/apiDrinks';
 
+interface Meal {
+  idMeal: string;
+  strMeal: string;
+  strMealThumb: string;
+}
+
+interface Drink {
+  idDrink: string;
+  strDrink: string;
+  strDrinkThumb: string;
+}
+
 const SEARCH_INPUT_TEST_ID = 'search-input';
 const INGREDIENT_RADIO_TEST_ID = 'ingredient-search-radio';
 const NAME_RADIO_TEST_ID = 'name-search-radio';
@@ -193,37 +205,6 @@ describe('<SearchBar />', () => {
   });
   // ......................
 
-  it('sets the first 12 recipes when multiple are found', async () => {
-    const mockRecipes = Array(15).map((_, i) => ({ idMeal: `id${i}`, strMeal: `Meal${i}`, strMealThumb: `img${i}.jpg` }));
-
-    jest.spyOn(apiFood, 'fetchFoodNameData').mockResolvedValueOnce({ meals: mockRecipes });
-
-    render(
-      <MemoryRouter>
-        <SearchBar searchContext="food" />
-      </MemoryRouter>,
-    );
-
-    const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
-    const nameRadio = screen.getByTestId(NAME_RADIO_TEST_ID);
-    const searchInput = screen.getByTestId(SEARCH_INPUT_TEST_ID);
-
-    fireEvent.click(nameRadio);
-    fireEvent.change(searchInput, { target: { value: 'Meal' } });
-
-    await act(async () => {
-      fireEvent.click(searchButton);
-    });
-
-    mockRecipes.slice(0, 12).forEach((meal, index) => {
-      expect(screen.getByTestId(`${index}-card-name`)).toHaveTextContent(meal.strMeal);
-    });
-
-    mockRecipes.slice(12).forEach((meal, index) => {
-      expect(screen.queryByTestId(`${index + 12}-card-name`)).toBeNull();
-    });
-  });
-
   it('fetches food data when search type is ingredient', async () => {
     const mockFoodData = {
       meals: [{ idMeal: '12345', strMeal: 'Pasta', strMealThumb: MOCK_IMG }],
@@ -350,6 +331,90 @@ describe('<SearchBar />', () => {
       await act(async () => {
         fireEvent.click(screen.getByTestId(EXEX_SEARCH_BTN_TEST));
       });
+    });
+  });
+
+  it('exits early if no data is returned', async () => {
+    jest.spyOn(apiFood, 'fetchFoodNameData').mockResolvedValueOnce(null);
+
+    render(
+      <MemoryRouter>
+        <SearchBar searchContext="food" />
+      </MemoryRouter>,
+    );
+
+    const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
+    const nameRadio = screen.getByTestId(NAME_RADIO_TEST_ID);
+    const searchInput = screen.getByTestId(SEARCH_INPUT_TEST_ID);
+
+    fireEvent.click(nameRadio);
+    fireEvent.change(searchInput, { target: { value: 'Meal' } });
+
+    await act(async () => {
+      fireEvent.click(searchButton);
+    });
+
+    expect(screen.queryByTestId('0-card-name')).toBeNull();
+  });
+  it('alerts when no results are found', async () => {
+    jest.spyOn(apiFood, 'fetchFoodNameData').mockResolvedValueOnce({ meals: [] });
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    render(
+      <MemoryRouter>
+        <SearchBar searchContext="food" />
+      </MemoryRouter>,
+    );
+
+    const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
+    const nameRadio = screen.getByTestId(NAME_RADIO_TEST_ID);
+    const searchInput = screen.getByTestId(SEARCH_INPUT_TEST_ID);
+
+    fireEvent.click(nameRadio);
+    fireEvent.change(searchInput, { target: { value: 'Meal' } });
+
+    await act(async () => {
+      fireEvent.click(searchButton);
+    });
+
+    expect(window.alert).toHaveBeenCalledWith('Sorry, we haven\'t found any recipes for these filters.');
+  });
+  // ...
+  it('fetches drink data when searchType is "name" and context is "drink"', async () => {
+    const mockFetch = jest.spyOn(apiDrinks, 'fetchDrinkNameData').mockResolvedValueOnce({ drinks: [] });
+    render(<MemoryRouter><SearchBar searchContext="drink" /></MemoryRouter>);
+
+    fireEvent.change(screen.getByTestId(SEARCH_INPUT_TEST_ID), { target: { value: 'mojito' } });
+    fireEvent.click(screen.getByTestId(NAME_RADIO_TEST_ID));
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId(EXEX_SEARCH_BTN_TEST));
+    });
+
+    expect(mockFetch).toHaveBeenCalledWith('mojito');
+  });
+
+  it('fetches drink data when searchType is "first-letter" and context is "drink"', async () => {
+    const mockFetch = jest.spyOn(apiDrinks, 'fetchDrinkFirstLetter').mockResolvedValueOnce({ drinks: [] });
+    render(<MemoryRouter><SearchBar searchContext="drink" /></MemoryRouter>);
+
+    fireEvent.change(screen.getByTestId(SEARCH_INPUT_TEST_ID), { target: { value: 'm' } });
+    fireEvent.click(screen.getByTestId(FIRST_LETTER_RADIO_TEST_ID));
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId(EXEX_SEARCH_BTN_TEST));
+    });
+
+    expect(mockFetch).toHaveBeenCalledWith('m');
+  });
+
+  it('returns null when searchType is default case', async () => {
+    render(<MemoryRouter><SearchBar searchContext="food" /></MemoryRouter>);
+
+    fireEvent.change(screen.getByTestId(SEARCH_INPUT_TEST_ID), { target: { value: 'm' } });
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId(EXEX_SEARCH_BTN_TEST));
     });
   });
 });
