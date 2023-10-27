@@ -46,14 +46,6 @@ export function DetailsCard() {
   }
   console.log(recipeDetail);
 
-  const ingredients: string[] = Object.entries(recipeDetail)
-    .filter(([key, value]) => key.startsWith('strIngredient') && value)
-    .map(([value]) => value);
-
-  const measures: string[] = Object.entries(recipeDetail)
-    .filter(([key, value]) => key.startsWith('strMeasure') && value)
-    .map(([value]) => value);
-
   return (
     <div>
       {isMeals ? (
