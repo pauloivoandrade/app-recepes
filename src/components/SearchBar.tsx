@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useContext } from 'react';
+import { useState, ChangeEvent, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -24,7 +24,6 @@ function SearchBar({ searchContext }: SearchBarProps) {
   const [searchType,
     setSearchType] = useState<'ingredient' | 'name' | 'first-letter'>('ingredient');
   const [searchValue, setSearchValue] = useState<string>('');
-  const [recipes] = useState<any[]>([]);
 
   const handleSearchTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchType(e.target.value as 'ingredient' | 'name' | 'first-letter');
@@ -124,26 +123,6 @@ function SearchBar({ searchContext }: SearchBarProps) {
       <button data-testid="exec-search-btn" onClick={ handleSearch }>
         Search
       </button>
-      <div className="recipe-list">
-        {recipes.map((recipe, index) => (
-          <div
-            key={ index }
-            data-testid={ `${index}-recipe-card` }
-            className="recipe-card"
-          >
-            <img
-              src={
-                searchContext === 'drink' ? recipe.strDrinkThumb : recipe.strMealThumb
-}
-              alt={ searchContext === 'drink' ? recipe.strDrink : recipe.strMeal }
-              data-testid={ `${index}-card-img` }
-            />
-            <p data-testid={ `${index}-card-name` }>
-              {searchContext === 'drink' ? recipe.strDrink : recipe.strMeal}
-            </p>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
