@@ -6,7 +6,7 @@ import { FavoriteRecipes } from './components/FavoriteRecipes';
 import { Profile } from './components/Profile';
 import { LayoutHF } from './components/LayoutHF';
 import { LayoutH } from './components/LayoutH';
-import { DetailsCard } from './components/DetailsCard';
+import { DetailsCard } from './components/RecipeDetails';
 import { ContextProvider } from './context/maincontext-provider';
 import { Recipes } from './components/Recipes';
 

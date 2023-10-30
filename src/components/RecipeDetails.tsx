@@ -82,6 +82,13 @@ export function DetailsCard() {
           />
           <h3>Recomended</h3>
           <CarouselCard />
+          <button
+            className="startBtn"
+            data-testid="start-recipe-btn"
+          >
+            Start Recipe
+
+          </button>
 
         </div>
       ) : (
@@ -130,6 +137,13 @@ export function DetailsCard() {
             title="Embedded Video"
           />
           <CarouselCard />
+          <button
+            className="startBtn"
+            data-testid="start-recipe-btn"
+          >
+            Start Recipe
+
+          </button>
         </div>
       )}
     </div>
