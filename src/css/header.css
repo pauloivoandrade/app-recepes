@@ -1,0 +1,158 @@
+@media screen and ( max-width : 640px ) {
+
+  .mainHeader {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+  }
+
+  .logoHeader {
+    align-items: center;
+    background-color: #57698f;
+    display: flex;
+    height: 100px;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .mealIcon {
+    height: 80px;
+    margin-top: 100px;
+    width: 1px;
+  }
+
+  h1 {
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
+
+  .titleHeader img {
+    border-radius: 10px;
+    height: 60px;
+    object-fit: cover;
+    width: 70px;
+    display: none;
+  }
+}
+
+@media screen and ( max-width : 1200px ) {
+
+  .mainHeader {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+  }
+
+  .mainHeader button {
+    background-color: transparent;
+    border: none;
+    margin: 0 25px;
+    margin-right: 10px;
+    padding: 15px;
+  }
+
+  .iconsHeader {
+    align-items: center;
+    background-color: #57698f;
+    display: flex;
+    height: 100px;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .logoheaderDiv {
+    border-radius: 10px;
+    height: 100px;
+    margin-left: -3px;
+    width: 100px;
+  }
+
+  .logoheaderDiv img {
+    height: 125px;
+    object-fit: cover;
+    width: 280px;
+  }
+
+  .mealIcon {
+    height: 80px;
+    margin-top: 380px;
+    width: 130px;
+  }
+
+  h1 {
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
+
+  .titleHeader img {
+    border-radius: 10px;
+    height: 60px;
+    object-fit: cover;
+    width: 70px;
+  }
+}
+
+@media screen and ( min-width : 1201px ) {
+
+  .mainHeader {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+  }
+
+  .mainHeader button {
+    background-color: transparent;
+    border: none;
+    margin: 0 15px;
+    padding: 10px;
+  }
+
+  .iconsHeader {
+    align-items: center;
+    background-color: #57698f;
+    display: flex;
+    height: 100px;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .logoheaderDiv {
+    border-radius: 10px;
+    height: 100px;
+    margin-left: -3px;
+    width: 100px;
+  }
+
+  .logoheaderDiv img {
+    height: 125px;
+    object-fit: cover;
+    width: 280px;
+  }
+
+  .mealIcon {
+    height: 80px;
+    margin-top: 380px;
+    width: 130px;
+  }
+
+
+  h1 {
+    font-size: 25px;
+    margin-bottom: 25px;
+    margin-top: -4px;
+  }
+
+  .titleHeader img {
+    border-radius: 10px;
+    height: 60px;
+    object-fit: cover;
+    width: 70px;
+
+  }
+}
