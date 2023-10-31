@@ -51,10 +51,12 @@ export function Recipes() {
       if (category !== selectedCategory) {
         const response = await mealsFetchByCategory(category);
         setRecipeByCategory(response);
+        console.log('recipe 5:', response);
         setSelectedCategory(category);
       } else {
         const response = await mealsFetch12();
         setRecipeByCategory(response);
+        console.log('recipe 12:', response);
         setSelectedCategory('All');
       }
     } else if (category !== selectedCategory) {
