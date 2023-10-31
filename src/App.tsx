@@ -9,6 +9,7 @@ import { LayoutH } from './components/LayoutH';
 import { DetailsCard } from './components/RecipeDetails';
 import { ContextProvider } from './context/maincontext-provider';
 import { Recipes } from './components/Recipes';
+import InProgress from './components/InProgressRecipe';
 
 function App() {
   return (
@@ -26,8 +27,8 @@ function App() {
         </Route>
         <Route element={ <DetailsCard /> } path="/meals/:recipeID" />
         <Route element={ <DetailsCard /> } path="/drinks/:recipeID" />
-        <Route element={ <DetailsCard /> } path="/meals/:recipeID/in-progress" />
-        <Route element={ <DetailsCard /> } path="/drinks/:recipeID/in-progress" />
+        <Route element={ <InProgress /> } path="/meals/:recipeID/in-progress" />
+        <Route element={ <InProgress /> } path="/drinks/:recipeID/in-progress" />
       </Routes>
     </ContextProvider>
   );
