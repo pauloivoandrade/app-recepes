@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { setOnStorage } from '../services/localStorage';
-import whiteHeart from '../images/whiteHeartIcon.svg';
-import blackHeart from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function HeartButton({ recipeDetail }: any) {
   const [isFavorite, setIsFavorite] = useState(false);
-
-  useEffect(() => {
-    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
-    const isAlreadyFavorite = favoriteRecipes
-      .some((item: any) => item.id === recipeDetail.id);
-
-    setIsFavorite(isAlreadyFavorite);
-  }, [recipeDetail.id]);
+  const { pathname } = useLocation();
+  const isMeals = pathname.includes('/meals');
 
   const saveToFavorites = () => {
+    // [{ id, type, nationality, category, alcoholicOrNot, name, image }]
     const favRecipe = {
-      id: recipeDetail.id,
-      name: recipeDetail.name,
-      category: recipeDetail.category,
-      image: recipeDetail.image,
-      instructions: recipeDetail.instructions,
-      ingredients: recipeDetail.ingredients,
+      id: recipeDetail.idMeal || recipeDetail.idDrink,
+      type: isMeals ? 'meal' : 'drink',
+      nationality: recipeDetail.strArea || '',
+      category: recipeDetail.strCategory,
+      alcoholicOrNot: isMeals ? '' : recipeDetail.strAlcoholic,
+      name: recipeDetail.strMeal || recipeDetail.strDrink,
+      image: recipeDetail.strMealThumb || recipeDetail.strDrinkThumb,
     };
 
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
@@ -53,8 +50,7 @@ function HeartButton({ recipeDetail }: any) {
       } }
     >
       <img
-        data-testid="favorite-btn"
-        src={ isFavorite ? blackHeart : whiteHeart }
+        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
         alt="Heart Icon"
         style={ { width: '30px', height: '30px' } }
       />
