@@ -21,14 +21,14 @@ export function DetailsCard() {
         const meals = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
         const mealsJson = await meals.json();
         setRecipesDetail(mealsJson.meals[0]);
-        setOnStorage('recipeDetail', mealsJson.meals[0]); // Coloque isso aqui, após setRecipesDetail
+        setOnStorage('recipeDetail', mealsJson.meals[0]);
       };
     } else {
       fetchFunction = async () => {
         const drinks = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
         const drinksJson = await drinks.json();
         setRecipesDetail(drinksJson.drinks[0]);
-        setOnStorage('recipeDetail', drinksJson.drinks[0]); // Coloque isso aqui, após setRecipesDetail
+        setOnStorage('recipeDetail', drinksJson.drinks[0]);
       };
     }
 

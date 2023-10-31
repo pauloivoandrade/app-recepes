@@ -45,11 +45,11 @@
   },
   "devDependencies": {
     "@testing-library/dom": "^8.20.0",
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "@trybe/eslint-config-frontend": "^1.11.3",
-    "@types/jest": "^29.5.6",
+    "@types/jest": "^29.5.7",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-slick": "^0.23.11",
     "@vitejs/plugin-react-swc": "^3.1.0",
@@ -66,6 +66,7 @@
     "mochawesome-report-generator": "^6.2.0",
     "stylelint": "^14.16.1",
     "stylelint-order": "^5.0.0",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.0.4",
     "vite": "^4.1.1",
     "vitest": "^0.30.1"

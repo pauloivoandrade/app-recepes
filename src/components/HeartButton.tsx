@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { setOnStorage } from '../services/localStorage';
+import { setOnStorage, getFromStorage } from '../services/localStorage';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
@@ -8,6 +8,14 @@ function HeartButton({ recipeDetail }: any) {
   const [isFavorite, setIsFavorite] = useState(false);
   const { pathname } = useLocation();
   const isMeals = pathname.includes('/meals');
+
+  useEffect(() => {
+    // Verifique se a receita atual está nos favoritos ao carregar o componente
+    const favoriteRecipes = getFromStorage('favoriteRecipes') || [];
+    const isAlreadyFavorite = favoriteRecipes
+      .some((item: any) => item.id === (recipeDetail.idMeal || recipeDetail.idDrink));
+    setIsFavorite(isAlreadyFavorite);
+  }, [recipeDetail]);
 
   const saveToFavorites = () => {
     // [{ id, type, nationality, category, alcoholicOrNot, name, image }]
@@ -39,7 +47,6 @@ function HeartButton({ recipeDetail }: any) {
 
   return (
     <button
-      data-testid="favorite-btn"
       onClick={ saveToFavorites }
       style={ {
         border: 'none',
@@ -50,6 +57,7 @@ function HeartButton({ recipeDetail }: any) {
       } }
     >
       <img
+        data-testid="favorite-btn"
         src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
         alt="Heart Icon"
         style={ { width: '30px', height: '30px' } }
