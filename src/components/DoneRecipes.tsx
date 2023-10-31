@@ -54,7 +54,6 @@ export function DoneRecipes() {
 
   return (
     <div>
-      <h1 data-testid="page-title">Done Recipes</h1>
       <button data-testid="filter-by-all-btn" onClick={ handleFilterAll }>All</button>
       <button
         data-testid="filter-by-meal-btn"
