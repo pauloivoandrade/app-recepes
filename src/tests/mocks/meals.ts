@@ -16,7 +16,8 @@ const meals = {
         around for around 1 minute. Now add the cumin, paprika, mint, thyme,
          black pepper, and red pepper as quickly as you can and stir for 10 seconds
           to bloom the spices. Congratulate yourself on how amazing your house now smells.
-        Immediately add the lentils, water, broth, and salt. Bring the soup to a (gentle) boil.
+        Immediately add the lentils, water, broth, and salt. 
+        Bring the soup to a (gentle) boil.
         After it has come to a boil, reduce heat to medium-low, cover the pot halfway, 
         and cook for 15-20 minutes or until the lentils have fallen apart and the carrots 
         are completely cooked. After the soup has cooked and the lentils are tender,
