@@ -32,7 +32,6 @@ export function DetailsCard() {
   if (!recipeDetail) {
     return <div>Loading...</div>;
   }
-  console.log(recipeDetail);
 
   return (
     <div>
