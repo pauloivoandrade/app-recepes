@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { CarouselCard } from './CarouselCard';
 import { setOnStorage } from '../services/localStorage';
 import HeartButton from './HeartButton';
+import shareIcon from '../images/shareIcon.svg';
 
 export function DetailsCard() {
   const navigate = useNavigate();
@@ -20,15 +21,17 @@ export function DetailsCard() {
         const meals = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
         const mealsJson = await meals.json();
         setRecipesDetail(mealsJson.meals[0]);
+        setOnStorage('recipeDetail', mealsJson.meals[0]); // Coloque isso aqui, após setRecipesDetail
       };
     } else {
       fetchFunction = async () => {
         const drinks = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
         const drinksJson = await drinks.json();
         setRecipesDetail(drinksJson.drinks[0]);
+        setOnStorage('recipeDetail', drinksJson.drinks[0]); // Coloque isso aqui, após setRecipesDetail
       };
     }
-    setOnStorage('recipeDetail', recipeDetail);
+
     fetchFunction();
   }, [isMeals, recipeID]);
 
