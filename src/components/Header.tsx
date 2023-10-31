@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
@@ -93,7 +93,7 @@ export function Header() {
         </div>
       </div>
       <div className="titleHeader">
-      <img src={ mealIcon } alt="Icon" />
+        <img src={ mealIcon } alt="Icon" />
         {renderSearchComponent()}
         <h1 data-testid="page-title">{renderTitle()}</h1>
       </div>

@@ -1,8 +1,8 @@
 // import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import drinkIcon from '../../images/drinkIcon.svg';
-import mealIcon from '../../images/mealIcon.svg';
-import './footer.css';
+import drinkIcon from '../images/drinkIcon.svg';
+import mealIcon from '../images/mealIcon.svg';
+import '../css/footer.css';
 // import MainContext from '../../context/maincontext-context';
 // import { mealsFetch12 } from '../../services/apiFood';
 // import { drinksFetch12 } from '../../services/apiDrinks';
