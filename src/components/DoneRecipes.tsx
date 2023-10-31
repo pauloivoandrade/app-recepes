@@ -73,16 +73,16 @@ export function DoneRecipes() {
       <div>
         {filteredRecipes.map((recipe, index) => (
           <div key={ recipe.id } data-testid={ `${index}-horizontal-recipe` }>
+
             <Link to={ `/${recipe.type}s/${recipe.id}` }>
               <img
                 src={ recipe.image }
-                alt={ recipe.name }
+                alt=" "
                 data-testid={ `${index}-horizontal-image` }
                 style={ { cursor: 'pointer', maxWidth: '100%' } }
-                onError={ (e) => { e.currentTarget.src = 'fallbackImageURL'; } }
+
               />
             </Link>
-
             <p data-testid={ `${index}-horizontal-top-text` }>
               {recipe.type === 'drink'
                 ? recipe.alcoholicOrNot : `${recipe.nationality} - ${recipe.category}`}
