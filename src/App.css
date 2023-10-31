@@ -66,3 +66,8 @@
     transform: rotate(-10deg);
   }
 }
+
+.startBtn {
+  bottom: 0;
+  position: fixed;
+}
