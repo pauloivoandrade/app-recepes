@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import '../css/login.css';
+import imageIcon from '../images/logoSemFundo.jpg';
 
 export function Login() {
   const navigate = useNavigate();
@@ -16,8 +18,9 @@ export function Login() {
   };
 
   return (
-    <form>
-      <label>
+    <section className="mainLogin">
+      <div className="formLogin">
+        <img src={ imageIcon } alt="Icon" />
         <input
           data-testid="email-input"
           type="text"
@@ -25,8 +28,6 @@ export function Login() {
           value={ emailInput }
           onChange={ (event) => setEmailInput(event.target.value) }
         />
-      </label>
-      <label>
         <input
           data-testid="password-input"
           type="text"
@@ -34,15 +35,16 @@ export function Login() {
           value={ passwordInput }
           onChange={ (event) => setPasswordInput(event.target.value) }
         />
-      </label>
-      <button
-        data-testid="login-submit-btn"
-        type="button"
-        disabled={ !isEmailValid || !isPasswordValid }
-        onClick={ () => handleClick() }
-      >
-        Enter
-      </button>
-    </form>
+        <button
+          className="btnLogin"
+          data-testid="login-submit-btn"
+          type="button"
+          disabled={ !isEmailValid || !isPasswordValid }
+          onClick={ () => handleClick() }
+        >
+          Enter
+        </button>
+      </div>
+    </section>
   );
 }

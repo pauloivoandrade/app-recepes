@@ -5,6 +5,7 @@ import { RecipesCard } from './RecipesCard';
 import MainContext from '../context/maincontext-context';
 import { drinksCategories, drinksFetch12, drinksFetchByCategory }
   from '../services/apiDrinks';
+import '../css/Recipes.css';
 
 export function Recipes() {
   const { recipeFetch, setRecipeFetch } = useContext(MainContext);
@@ -74,42 +75,44 @@ export function Recipes() {
   };
 
   return (
-    <div>
-      <p>
-        { categories.map((element: any, index: number) => (
+    <div className="div1">
+      <div>
+        <p className="div2">
+          { categories.map((element: any, index: number) => (
+            <button
+              key={ index }
+              data-testid={ `${element.strCategory}-category-filter` }
+              type="button"
+              onClick={ () => handleCategory(element.strCategory) }
+            >
+              {element.strCategory}
+            </button>
+          )) }
           <button
-            key={ index }
-            data-testid={ `${element.strCategory}-category-filter` }
+            data-testid="All-category-filter"
             type="button"
-            onClick={ () => handleCategory(element.strCategory) }
+            onClick={ () => handleAllBtn() }
           >
-            {element.strCategory}
+            All
           </button>
-        )) }
-        <button
-          data-testid="All-category-filter"
-          type="button"
-          onClick={ () => handleAllBtn() }
-        >
-          All
-        </button>
-      </p>
-      <h1>
-        { recipeByCategory.length > 0 ? recipeByCategory
-          .map((element: any, index: number) => (
-            <RecipesCard
-              key={ index }
-              index={ index }
-              recipe={ element }
-            />
-          )) : recipeFetch.map((element: any, index: number) => (
-            <RecipesCard
-              key={ index }
-              index={ index }
-              recipe={ element }
-            />
-        )) }
-      </h1>
+        </p>
+        <h1>
+          { recipeByCategory.length > 0 ? recipeByCategory
+            .map((element: any, index: number) => (
+              <RecipesCard
+                key={ index }
+                index={ index }
+                recipe={ element }
+              />
+            )) : recipeFetch.map((element: any, index: number) => (
+              <RecipesCard
+                key={ index }
+                index={ index }
+                recipe={ element }
+              />
+          )) }
+        </h1>
+      </div>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 .footer {
-  background-color: #7b93e2;
+  background-color: #989cb3;
   bottom: 0;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   padding: 5px;
   position: fixed;
   width: 100%;
@@ -15,7 +15,7 @@
 }
 
 .footer button:hover {
-  background-color: rgb(183, 174, 224);
+  background-color: #e4e4e2;
   border-bottom: 1px solid rgb(2, 1, 5);
   border-radius: 4px;
 }
