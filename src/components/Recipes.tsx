@@ -1,10 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { mealsCategories, mealsFetch12, mealsFetchByCategory } from '../services/apiFood';
 import { RecipesCard } from './RecipesCard';
 import MainContext from '../context/maincontext-context';
 import { drinksCategories, drinksFetch12, drinksFetchByCategory }
   from '../services/apiDrinks';
+import '../css/recipes.css';
 
 export function Recipes() {
   const { recipeFetch, setRecipeFetch } = useContext(MainContext);
@@ -16,15 +17,25 @@ export function Recipes() {
   const [recipeByCategory, setRecipeByCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const mealFetch = async () => {
+  const mealFetch = useCallback(async () => {
     const response = await mealsFetch12();
     setRecipeFetch(response);
-  };
+  }, [setRecipeFetch]);
 
-  const drinkFetch = async () => {
+  const drinkFetch = useCallback(async () => {
     const response = await drinksFetch12();
     setRecipeFetch(response);
-  };
+  }, [setRecipeFetch]);
+
+  const mealsCategoriesFetch = useCallback(async () => {
+    const response = await mealsCategories();
+    setCategories(response);
+  }, [setCategories]);
+
+  const drinksCategoriesFetch = useCallback(async () => {
+    const response = await drinksCategories();
+    setCategories(response);
+  }, [setCategories]);
 
   useEffect(() => {
     if (isMeals) {
@@ -34,17 +45,7 @@ export function Recipes() {
       drinkFetch();
       drinksCategoriesFetch();
     }
-  }, []);
-
-  const mealsCategoriesFetch = async () => {
-    const response = await mealsCategories();
-    setCategories(response);
-  };
-
-  const drinksCategoriesFetch = async () => {
-    const response = await drinksCategories();
-    setCategories(response);
-  };
+  }, [isMeals, mealFetch, mealsCategoriesFetch, drinkFetch, drinksCategoriesFetch]);
 
   const handleCategory = async (category: string) => {
     if (isMeals) {
@@ -74,42 +75,44 @@ export function Recipes() {
   };
 
   return (
-    <div>
-      <p>
-        { categories.map((element: any, index: number) => (
+    <div className="div1">
+      <div>
+        <p className="div2">
+          { categories.map((element: any, index: number) => (
+            <button
+              key={ index }
+              data-testid={ `${element.strCategory}-category-filter` }
+              type="button"
+              onClick={ () => handleCategory(element.strCategory) }
+            >
+              {element.strCategory}
+            </button>
+          )) }
           <button
-            key={ index }
-            data-testid={ `${element.strCategory}-category-filter` }
+            data-testid="All-category-filter"
             type="button"
-            onClick={ () => handleCategory(element.strCategory) }
+            onClick={ () => handleAllBtn() }
           >
-            {element.strCategory}
+            All
           </button>
-        )) }
-        <button
-          data-testid="All-category-filter"
-          type="button"
-          onClick={ () => handleAllBtn() }
-        >
-          All
-        </button>
-      </p>
-      <h1>
-        { recipeByCategory.length > 0 ? recipeByCategory
-          .map((element: any, index: number) => (
-            <RecipesCard
-              key={ index }
-              index={ index }
-              recipe={ element }
-            />
-          )) : recipeFetch.map((element: any, index: number) => (
-            <RecipesCard
-              key={ index }
-              index={ index }
-              recipe={ element }
-            />
-        )) }
-      </h1>
+        </p>
+        <h1>
+          { recipeByCategory.length > 0 ? recipeByCategory
+            .map((element: any, index: number) => (
+              <RecipesCard
+                key={ index }
+                index={ index }
+                recipe={ element }
+              />
+            )) : recipeFetch.map((element: any, index: number) => (
+              <RecipesCard
+                key={ index }
+                index={ index }
+                recipe={ element }
+              />
+          )) }
+        </h1>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,74 @@
+.mainLogin {
+  align-items: center;
+  background-image: url('../images/fundoLogin.jpg');
+  background-size: cover;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
+.formLogin {
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  justify-content: center;
+  position: relative;
+  width: 50vw;
+  z-index: 2555;
+}
+
+.formLogin img {
+  height: 200px;
+  left: auto;
+  position: absolute;
+  top: -130px;
+  width: auto;
+}
+
+.formLogin input {
+  border: none;
+  border-bottom: 0.5px solid black;
+  border-radius: 10px;
+  height: 40px;
+  margin: 10px 0;
+  padding: 10px;
+  width: 80%;
+}
+
+.formLogin input::placeholder {
+  padding: 10px;
+}
+
+.formLogin input:hover {
+  border-bottom: 2px solid #c37e7e;
+}
+
+.btnLogin {
+  background: linear-gradient(to bottom, #a5a0ee 15%, #7b7978 100%);
+  border: none;
+  border-radius: 6px;
+  bottom: 10px;
+  box-shadow: inset 0 1px 0 0 white;
+  color: black);
+  cursor: pointer;
+  display: inline-block;
+  font-family: Arial , serif;
+  font-size: 17px;
+  font-weight: 900;
+  padding: 6px 40px;
+  position: absolute;
+  text-decoration: none;
+}
+
+.btnLogin:disabled {
+  background: linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+  border-radius: 6px;
+  box-shadow: inset 0 1px 0 0 white;
+  color: #2d2626;
+  text-decoration: none;
+}

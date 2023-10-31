@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import '../css/header.css';
+import logoIcon from '../images/logoComFundo2.jpg';
+import mealIcon from '../images/mealIcon.jpg';
 
 export function Header() {
   const location = useLocation();
@@ -78,11 +81,22 @@ export function Header() {
   }
 
   return (
-    <div className="header">
-      {renderProfileIcon()}
-      {renderSearchIcon()}
-      {renderSearchComponent()}
-      <h1 data-testid="page-title">{renderTitle()}</h1>
-    </div>
+    <header className="mainHeader">
+      <div className="iconsHeader">
+        <Link to="/meals" className="logoheaderDiv">
+          <img src={ logoIcon } alt="Icon" className="logoheaderDiv" />
+        </Link>
+
+        <div className="icons">
+          {renderProfileIcon()}
+          {renderSearchIcon()}
+        </div>
+      </div>
+      <div className="titleHeader">
+        <img src={ mealIcon } alt="Icon" />
+        {renderSearchComponent()}
+        <h1 data-testid="page-title">{renderTitle()}</h1>
+      </div>
+    </header>
   );
 }

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import shareIcon from '../images/shareIcon.svg';
+import { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import { CarouselCard } from './CarouselCard';
 import { setOnStorage } from '../services/localStorage';
 import HeartButton from './HeartButton';
