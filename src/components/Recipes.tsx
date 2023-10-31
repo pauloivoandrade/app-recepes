@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { mealsCategories, mealsFetch12, mealsFetchByCategory } from '../services/apiFood';
 import { RecipesCard } from './RecipesCard';
@@ -17,15 +17,25 @@ export function Recipes() {
   const [recipeByCategory, setRecipeByCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const mealFetch = async () => {
+  const mealFetch = useCallback(async () => {
     const response = await mealsFetch12();
     setRecipeFetch(response);
-  };
+  }, [setRecipeFetch]);
 
-  const drinkFetch = async () => {
+  const drinkFetch = useCallback(async () => {
     const response = await drinksFetch12();
     setRecipeFetch(response);
-  };
+  }, [setRecipeFetch]);
+
+  const mealsCategoriesFetch = useCallback(async () => {
+    const response = await mealsCategories();
+    setCategories(response);
+  }, [setCategories]);
+
+  const drinksCategoriesFetch = useCallback(async () => {
+    const response = await drinksCategories();
+    setCategories(response);
+  }, [setCategories]);
 
   useEffect(() => {
     if (isMeals) {
@@ -35,17 +45,7 @@ export function Recipes() {
       drinkFetch();
       drinksCategoriesFetch();
     }
-  }, []);
-
-  const mealsCategoriesFetch = async () => {
-    const response = await mealsCategories();
-    setCategories(response);
-  };
-
-  const drinksCategoriesFetch = async () => {
-    const response = await drinksCategories();
-    setCategories(response);
-  };
+  }, [isMeals, mealFetch, mealsCategoriesFetch, drinkFetch, drinksCategoriesFetch]);
 
   const handleCategory = async (category: string) => {
     if (isMeals) {

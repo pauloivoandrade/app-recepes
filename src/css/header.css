@@ -30,10 +30,10 @@
 
   .titleHeader img {
     border-radius: 10px;
+    display: none;
     height: 60px;
     object-fit: cover;
     width: 70px;
-    display: none;
   }
 }
 
