@@ -10,7 +10,6 @@ function HeartButton({ recipeDetail }: any) {
   const isMeals = pathname.includes('/meals');
 
   useEffect(() => {
-    // Verifique se a receita atual está nos favoritos ao carregar o componente
     const favoriteRecipes = getFromStorage('favoriteRecipes') || [];
     const isAlreadyFavorite = favoriteRecipes
       .some((item: any) => item.id === (recipeDetail.idMeal || recipeDetail.idDrink));
