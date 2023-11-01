@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import MainContext from '../context/maincontext-context';
 import shareIcon from '../images/shareIcon.svg';
 
 type DoneRecipe = {

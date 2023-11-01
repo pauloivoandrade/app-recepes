@@ -11,16 +11,16 @@ export function Footer() {
   const navigate = useNavigate();
   // const { setRecipeFetch } = useContext(MainContext);
 
-  const handleClickMeals = async () => {
+  const handleClickMeals = () => {
     navigate('/meals');
-    window.location.reload();
+    // window.location.reload();
     // const response = await mealsFetch12();
     // setRecipeFetch(response);
   };
 
-  const handleClickDrinks = async () => {
+  const handleClickDrinks = () => {
     navigate('/drinks');
-    window.location.reload();
+    // window.location.reload();
     // const response = await drinksFetch12();
     // setRecipeFetch(response);
   };
