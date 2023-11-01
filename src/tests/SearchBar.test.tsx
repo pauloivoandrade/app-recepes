@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import jest from 'jest-mock';
+import { vi } from 'vitest';
 import SearchBar from '../components/SearchBar';
 import * as apiFood from '../services/apiFood';
 import * as apiDrinks from '../services/apiDrinks';
@@ -9,6 +9,7 @@ import * as apiDrinks from '../services/apiDrinks';
 interface SearchBarProps {
   searchContext: 'food' | 'drink';
 }
+const message = 'Sorry, we haven\'t found any recipes for these filters.';
 const SEARCH_INPUT_TEST_ID = 'search-input';
 const INGREDIENT_RADIO_TEST_ID = 'ingredient-search-radio';
 const NAME_RADIO_TEST_ID = 'name-search-radio';
@@ -25,7 +26,7 @@ const renderSearchBar = (props: SearchBarProps) => {
 };
 describe('<SearchBar />', () => {
   it('navigates to the correct route if a single recipe is found', async () => {
-    jest.spyOn(apiFood, 'fetchFoodNameData').mockResolvedValueOnce({ meals: [{ idMeal: '1234', strMeal: 'Pizza', strMealThumb: 'img.jpg' }] });
+    vi.spyOn(apiFood, 'fetchFoodNameData').mockResolvedValueOnce({ meals: [{ idMeal: '1234', strMeal: 'Pizza', strMealThumb: 'img.jpg' }] });
     renderSearchBar({ searchContext: 'food' });
     const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
     const nameRadio = screen.getByTestId(NAME_RADIO_TEST_ID);
@@ -38,7 +39,7 @@ describe('<SearchBar />', () => {
   });
 
   it('displays an alert if first-letter search has more than one character', async () => {
-    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => message);
     renderSearchBar({ searchContext: 'food' });
     const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
     const firstLetterRadio = screen.getByTestId(FIRST_LETTER_RADIO_TEST_ID);
@@ -53,8 +54,8 @@ describe('<SearchBar />', () => {
   });
 
   it('alerts the user when no recipes are found', async () => {
-    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-    jest.spyOn(apiFood, 'fetchFoodNameData').mockResolvedValueOnce({ meals: null });
+    const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => message);
+    vi.spyOn(apiFood, 'fetchFoodNameData').mockResolvedValueOnce({ meals: null });
     renderSearchBar({ searchContext: 'food' });
     const nameRadio = screen.getByTestId(NAME_RADIO_TEST_ID);
     const searchInput = screen.getByTestId(SEARCH_INPUT_TEST_ID);
@@ -64,12 +65,12 @@ describe('<SearchBar />', () => {
     await act(async () => {
       fireEvent.click(searchButton);
     });
-    expect(alertSpy).toHaveBeenCalledWith('Sorry, we haven\'t found any recipes for these filters.');
+    expect(alertSpy).toHaveBeenCalledWith(message);
     alertSpy.mockRestore();
   });
 
   it('navigates to the correct route for drinks when a single recipe is found', async () => {
-    jest.spyOn(apiDrinks, 'fetchDrinkNameData').mockResolvedValueOnce({ drinks: [{ idDrink: '5678', strDrink: 'Cocktail', strDrinkThumb: 'img.jpg' }] });
+    vi.spyOn(apiDrinks, 'fetchDrinkNameData').mockResolvedValueOnce({ drinks: [{ idDrink: '5678', strDrink: 'Cocktail', strDrinkThumb: 'img.jpg' }] });
     renderSearchBar({ searchContext: 'drink' });
     const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
     const nameRadio = screen.getByTestId(NAME_RADIO_TEST_ID);
@@ -104,7 +105,7 @@ describe('<SearchBar />', () => {
       const mockFoodData = {
         meals: [{ idMeal: '12345', strMeal: 'Pasta', strMealThumb: MOCK_IMG }],
       };
-      jest.spyOn(apiFood, 'fetchFoodIngredientsData').mockResolvedValueOnce(mockFoodData);
+      vi.spyOn(apiFood, 'fetchFoodIngredientsData').mockResolvedValueOnce(mockFoodData);
       renderSearchBar({ searchContext: 'food' });
       const ingredientRadio = screen.getByTestId(INGREDIENT_RADIO_TEST_ID);
       const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
@@ -121,7 +122,7 @@ describe('<SearchBar />', () => {
       const mockDrinkData = {
         drinks: [{ idDrink: '67890', strDrink: 'Mojito', strDrinkThumb: MOCK_IMG }],
       };
-      jest.spyOn(apiDrinks, 'fetchDrinkIngredientsData').mockResolvedValueOnce(mockDrinkData);
+      vi.spyOn(apiDrinks, 'fetchDrinkIngredientsData').mockResolvedValueOnce(mockDrinkData);
       renderSearchBar({ searchContext: 'drink' });
       const ingredientRadio = screen.getByTestId(INGREDIENT_RADIO_TEST_ID);
       const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
@@ -138,7 +139,7 @@ describe('<SearchBar />', () => {
       const mockFoodData = {
         meals: [{ idMeal: '12345', strMeal: 'Pasta', strMealThumb: MOCK_IMG }],
       };
-      jest.spyOn(apiFood, 'fetchFoodFirstLetter').mockResolvedValueOnce(mockFoodData);
+      vi.spyOn(apiFood, 'fetchFoodFirstLetter').mockResolvedValueOnce(mockFoodData);
       renderSearchBar({ searchContext: 'food' });
       const firstLetterRadio = screen.getByTestId(FIRST_LETTER_RADIO_TEST_ID);
       const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
@@ -155,7 +156,7 @@ describe('<SearchBar />', () => {
       const mockDrinkData = {
         drinks: [{ idDrink: '67890', strDrink: 'Mojito', strDrinkThumb: MOCK_IMG }],
       };
-      jest.spyOn(apiDrinks, 'fetchDrinkFirstLetter').mockResolvedValueOnce(mockDrinkData);
+      vi.spyOn(apiDrinks, 'fetchDrinkFirstLetter').mockResolvedValueOnce(mockDrinkData);
       renderSearchBar({ searchContext: 'drink' });
       const firstLetterRadio = screen.getByTestId(FIRST_LETTER_RADIO_TEST_ID);
       const searchButton = screen.getByTestId(EXEX_SEARCH_BTN_TEST);
@@ -169,7 +170,8 @@ describe('<SearchBar />', () => {
     });
 
     it('fetches drink data when searchType is "first-letter" and context is "drink"', async () => {
-      const mockFetch = jest.spyOn(apiDrinks, 'fetchDrinkFirstLetter').mockResolvedValueOnce({ drinks: [] });
+      const mockFetch = vi.spyOn(apiDrinks, 'fetchDrinkFirstLetter').mockResolvedValueOnce({ drinks: [] });
+      vi.spyOn(window, 'alert').mockImplementationOnce(() => message);
       render(<MemoryRouter><SearchBar searchContext="drink" /></MemoryRouter>);
       fireEvent.change(screen.getByTestId(SEARCH_INPUT_TEST_ID), { target: { value: 'm' } });
       fireEvent.click(screen.getByTestId(FIRST_LETTER_RADIO_TEST_ID));

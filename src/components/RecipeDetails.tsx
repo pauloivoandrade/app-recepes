@@ -58,7 +58,7 @@ export function DetailsCard() {
     }
   };
 
-  console.log(recipeDetail);
+  // console.log(recipeDetail);
   return (
     <div>
       <HeartButton recipeDetail={ recipeDetail } />

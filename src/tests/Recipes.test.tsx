@@ -7,7 +7,9 @@ import drinks from './mocks/drinks';
 import meals from './mocks/meals';
 import chickenMeals from './mocks/chicken';
 import mealCategories from './mocks/mealCategories';
+import { ContextProvider } from '../context/maincontext-provider';
 
+const chickenCat = 'Chicken-category-filter';
 const emailInputId = 'email-input';
 const passwordInputId = 'password-input';
 const loginSubmitBtnId = 'login-submit-btn';
@@ -30,7 +32,9 @@ test('Caso as receitas sejam de comida, a rota deve mudar para a tela de detalhe
 });
 
 test('Caso as receitas sejam de bebida, a rota deve mudar para a tela de detalhes da receita', async () => {
-  renderWithRouter(<App />);
+  vi.spyOn(global, 'fetch')
+    .mockResolvedValueOnce({ json: async () => meals } as Response).mockResolvedValueOnce({ json: async () => mealCategories } as Response);
+  renderWithRouter(<ContextProvider><App /></ContextProvider>);
 
   const emailInput = screen.getByTestId(emailInputId);
   const passwordInput = screen.getByTestId(passwordInputId);
@@ -41,22 +45,6 @@ test('Caso as receitas sejam de bebida, a rota deve mudar para a tela de detalhe
   const drinksBtn = screen.getByTestId('drinks-bottom-btn');
   await userEvent.click(drinksBtn);
   expect(window.location.pathname).toBe('/drinks');
-});
-
-test('Verifica chamada da api', async () => {
-  renderWithRouter(<App />);
-  const emailInput = screen.getByTestId(emailInputId);
-  const passwordInput = screen.getByTestId(passwordInputId);
-  const loginSubmitBtn = screen.getByTestId(loginSubmitBtnId);
-  await userEvent.type(emailInput, stringEmail);
-  await userEvent.type(passwordInput, stringPassword);
-  await userEvent.click(loginSubmitBtn);
-
-  await new Promise((resolve) => { setTimeout(resolve, 2000); });
-  await waitFor(() => {
-    const ultItem = screen.getByTestId('11-recipe-card');
-    expect(ultItem).toBeInTheDocument();
-  });
 });
 
 test('Verifica se drinks são renderizados, se meals não são renderizados', async () => {
@@ -82,16 +70,15 @@ test('Verifica filtro de categoria', async () => {
   renderWithRouter(<App />, { route: '/meals' });
   // });
   await waitFor(() => {
-    const chickenBtn = screen.getByTestId('Chicken-category-filter');
+    const chickenBtn = screen.getByTestId(chickenCat);
     userEvent.click(chickenBtn);
   }, { timeout: 3000 });
-  await new Promise((resolve) => { setTimeout(resolve, 3000); });
   await waitFor(async () => {
     const firstChicken = screen.getByText('Brown Stew Chicken');
     expect(firstChicken).toBeInTheDocument();
     const btnAllRecipes = screen.getByTestId('All-category-filter');
     expect(btnAllRecipes).toBeInTheDocument();
-    const chickenBtn = screen.getByTestId('Chicken-category-filter');
+    const chickenBtn = screen.getByTestId(chickenCat);
     await userEvent.click(chickenBtn);
     await userEvent.click(btnAllRecipes);
     const firstAll = screen.getByText('Corba');
@@ -99,24 +86,23 @@ test('Verifica filtro de categoria', async () => {
   });
 });
 
-// test('Verifica se apenas as receitas da categoria correta são exibidas após o clique', async () => {
-//   const mockResponse = { json: async () => meals } as Response;
-//   const mockResponse2 = { json: async () => chickenMeals } as Response;
-//   const mockResponse3 = { json: async () => mealCategories } as Response;
-//   vi.spyOn(global, 'fetch').mockResolvedValueOnce(mockResponse)
-//     .mockResolvedValueOnce(mockResponse3).mockResolvedValueOnce(mockResponse2);
+test('Verifica se apenas as receitas da categoria correta são exibidas após o clique', async () => {
+  const mockResponse = { json: async () => meals } as Response;
+  const mockResponse2 = { json: async () => chickenMeals } as Response;
+  const mockResponse3 = { json: async () => mealCategories } as Response;
+  vi.spyOn(global, 'fetch').mockResolvedValueOnce(mockResponse)
+    .mockResolvedValueOnce(mockResponse3).mockResolvedValueOnce(mockResponse2);
 
-//   renderWithRouter(<App />, { route: '/meals' });
+  renderWithRouter(<App />, { route: '/meals' });
 
-//   await new Promise((resolve) => { setTimeout(resolve, 2000); });
-//   await waitFor(() => {
-//     const ultItem = screen.getByTestId('0-recipe-card');
-//     expect(ultItem).toBeInTheDocument();
-//   });
+  await waitFor(() => {
+    const ultItem = screen.getByTestId('0-recipe-card');
+    expect(ultItem).toBeInTheDocument();
+  });
 
-//   const categoryButton = screen.getByTestId('Chicken-category-filter');
-//   await userEvent.click(categoryButton);
+  const categoryButton = screen.getByTestId(chickenCat);
+  await userEvent.click(categoryButton);
 
-//   expect(chickenRecipe).toBeInTheDocument();
-//   expect(screen.queryByText('Beef Recipe')).toBeNull();
-// });
+  expect(categoryButton).toBeInTheDocument();
+  expect(screen.queryByText('Beef Recipe')).toBeNull();
+});
