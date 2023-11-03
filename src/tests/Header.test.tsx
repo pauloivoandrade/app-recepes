@@ -68,7 +68,6 @@ describe('Header', () => {
     const searchBtn = screen.getByTestId(SEARCH_BTN_TEST_ID);
     fireEvent.keyDown(searchBtn, { key: 'Enter' });
     expect(screen.getByTestId(SEARCH_INPUT)).toBeInTheDocument();
-
     fireEvent.keyDown(searchBtn, { key: ' ' });
     expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
   });
@@ -142,11 +141,9 @@ describe('DoneRecipes component', () => {
       doneDate: '2023-05-30',
       tags: ['tag1', 'tag2'],
     },
-
   ];
 
   let clipboardSpy: SpyInstance<[data: string], Promise<void>>;
-
   beforeEach(() => {
     vi.useFakeTimers();
     localStorage.clear();
@@ -188,9 +185,7 @@ describe('DoneRecipes component', () => {
       fireEvent.click(shareButton);
     });
     expect(clipboardSpy).toHaveBeenCalledWith('http://localhost:3000/meals/1');
-
     expect(screen.getByText('Link copied!')).toBeInTheDocument();
-
     act(() => {
       vi.runAllTimers();
     });
