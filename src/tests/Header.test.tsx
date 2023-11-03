@@ -12,7 +12,6 @@ const PROFILE_BTN_TEST_ID = 'profile-top-btn';
 const PAGE_TITLE_TEST_ID = 'page-title';
 const SEARCH_BTN_TEST_ID = 'search-top-btn';
 const SEARCH_INPUT = 'search-input';
-
 describe('Header', () => {
   it('Rota "/": não possui header', () => {
     renderWithRouter(<App />, { route: '/' });
@@ -98,7 +97,6 @@ describe('Header', () => {
     renderWithRouter(<DoneRecipes />);
     expect(screen.getByTestId('filter-by-all-btn')).toBeInTheDocument();
   });
-
   it('filters recipes when filter buttons are clicked', () => {
     const meals = [
       { id: '1', type: 'meal', name: 'Meal1' },
@@ -110,23 +108,21 @@ describe('Header', () => {
     ];
     const doneRecipes = [...meals, ...drinks];
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-
     renderWithRouter(<DoneRecipes />);
-
     fireEvent.click(screen.getByTestId('filter-by-meal-btn'));
-
     meals.forEach((meal) => {
       expect(screen.getByText(meal.name)).toBeInTheDocument();
     });
+
     drinks.forEach((drink) => {
       expect(screen.queryByText(drink.name)).not.toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByTestId('filter-by-drink-btn'));
-
     drinks.forEach((drink) => {
       expect(screen.getByText(drink.name)).toBeInTheDocument();
     });
+
     meals.forEach((meal) => {
       expect(screen.queryByText(meal.name)).not.toBeInTheDocument();
     });
