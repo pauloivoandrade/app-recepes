@@ -1,6 +1,6 @@
 import { createContext } from 'react';
-import { ContextType } from '../types';
+import { RecipesContextType } from '../types/contextType';
 
-const MainContext = createContext({} as ContextType);
+const MainContext = createContext({} as RecipesContextType);
 
 export default MainContext;
