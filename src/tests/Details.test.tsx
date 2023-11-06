@@ -10,7 +10,7 @@ describe('Teste pagina de Details', async () => {
   const routeDetail = '/meals/52977';
   it('Rota "/meals/52977" renderiza corretamente o card', async () => {
     const mealTestIdImg = 'recipe-photo';
-    await renderWithRouter(<App />, { route: routeDetail });
+    renderWithRouter(<App />, { route: routeDetail });
 
     await waitFor(() => {
       const mealImage = screen.getByTestId(mealTestIdImg);
@@ -24,37 +24,10 @@ describe('Teste pagina de Details', async () => {
       expect(startBtn).toBeInTheDocument();
     });
   });
-  // it('Rota "/drinks/17222" renderiza corretamente o card', async () => {
-  //   const mealTestIdImg = 'recipe-photo';
-  //   await renderWithRouter(<App />, { route: '/drinks/17222' });
-
-  //   await waitFor(() => {
-  //     const drinkImage = screen.getByTestId(mealTestIdImg);
-  //     expect(drinkImage).toBeInTheDocument();
-  //   });
-  // });
-  // it('Rota "/meals/52977" renderiza os detalhes da receita', async () => {
-  //   const mealTestIdIngredient = '0-ingredient-name-and-measure';
-  //   await renderWithRouter(<App />, { route: routeDetail });
-
-  //   await waitFor(() => {
-  //     const mealIngredient = screen.getByTestId(mealTestIdIngredient);
-  //     expect(mealIngredient).toBeInTheDocument();
-  //   });
-  // });
-  // it('Rota "/meals/52977" renderiza as instrucoes da receita', async () => {
-  //   const mealTestIdInstructions = 'instructions';
-  //   await renderWithRouter(<App />, { route: routeDetail });
-
-  //   await waitFor(() => {
-  //     const mealInstructions = screen.getByTestId(mealTestIdInstructions);
-  //     expect(mealInstructions).toBeInTheDocument();
-  //   });
-  // });
   it('Rota "/meals/52977" renderiza botao de favorito e de copiar link da receita', async () => {
     const favBtn = 'favorite-btn';
     const copyLink = 'share-btn';
-    await renderWithRouter(<App />, { route: routeDetail });
+    renderWithRouter(<App />, { route: routeDetail });
 
     await waitFor(() => {
       const favoriteButton = screen.getByTestId(favBtn);
@@ -67,7 +40,7 @@ describe('Teste pagina de Details', async () => {
 describe('Teste alerta de link copiado', async () => {
   const routeDetail = '/meals/52977';
   it('alerta de link copiado aparece na tela', async () => {
-    await renderWithRouter(<App />, { route: '/drinks/17222' });
+    renderWithRouter(<App />, { route: '/drinks/17222' });
     await waitFor(() => {
       const shareBtn = screen.getByTestId('share-btn');
       userEvent.click(shareBtn);
@@ -77,7 +50,7 @@ describe('Teste alerta de link copiado', async () => {
     });
   });
   it('alerta de link copiado aparece na tela', async () => {
-    await renderWithRouter(<App />, { route: routeDetail });
+    renderWithRouter(<App />, { route: routeDetail });
     await waitFor(() => {
       const shareBtn = screen.getByTestId('share-btn');
       userEvent.click(shareBtn);
@@ -87,22 +60,22 @@ describe('Teste alerta de link copiado', async () => {
     });
   });
   test('renders loading message while fetching data', async () => {
-    await renderWithRouter(<App />, { route: routeDetail });
+    renderWithRouter(<App />, { route: routeDetail });
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
   test('displays "Link copied!" message after clicking share button', async () => {
-    await renderWithRouter(<App />, { route: routeDetail });
+    renderWithRouter(<App />, { route: routeDetail });
 
-    await waitFor(() => {
+    await waitFor(async () => {
       const shareBtn = screen.getByTestId('share-btn');
       act(() => {
         userEvent.click(shareBtn);
       });
 
-      setTimeout(() => {
-        expect(screen.queryByTestId('copied-message')).toBeInTheDocument();
-      }, 1000);
+      expect(screen.queryByTestId('copied-message')).toBeInTheDocument();
+      expect(await navigator.clipboard.readText()).toBe('http://localhost:3000/meals/52977');
+      screen.debug();
     });
   });
 });

@@ -49,12 +49,12 @@ export function DetailsCard() {
   const handleCopyToClipboard = async () => {
     const link = window.location.href;
 
-    try {
-      await navigator.clipboard.writeText(link);
-      setCopied(true);
-    } catch (error) {
-      console.error('Erro ao copiar o link: ', error);
-    }
+    // try {
+    await navigator.clipboard.writeText(link);
+    setCopied(true);
+    // } catch (error) {
+    //   console.error('Erro ao copiar o link: ', error);
+    // }
   };
 
   // console.log(recipeDetail);
