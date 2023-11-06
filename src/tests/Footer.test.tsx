@@ -1,5 +1,6 @@
 import 'matchmedia-polyfill';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './helpers/renderWithRouter';
 
@@ -20,6 +21,20 @@ describe('Teste se rotas possuem footer', () => {
     const footer = 'footer';
     renderWithRouter(<App />, { route: '/drinks' });
     expect(screen.queryByTestId(footer)).toBeInTheDocument();
+  });
+  it('Botao meals navega para /meals', async () => {
+    renderWithRouter(<App />, { route: '/meals' });
+
+    await waitFor(async () => {
+      const drinksBtn = screen.getByTestId('drinks-bottom-btn');
+      userEvent.click(drinksBtn);
+      expect(window.location.href).toBe('http://localhost:3000/drinks');
+    });
+    await waitFor(async () => {
+      const mealsBtn = screen.getByTestId('meals-bottom-btn');
+      userEvent.click(mealsBtn);
+      expect(window.location.href).toBe('http://localhost:3000/meals');
+    });
   });
 
   // describe('Teste do componente Footer', () => {
