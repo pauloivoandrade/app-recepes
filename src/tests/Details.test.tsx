@@ -1,6 +1,6 @@
 import React from 'react';
 import 'matchmedia-polyfill';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './helpers/renderWithRouter';
@@ -65,6 +65,7 @@ describe('Teste pagina de Details', async () => {
   });
 });
 describe('Teste alerta de link copiado', async () => {
+  const routeDetail = '/meals/52977';
   it('alerta de link copiado aparece na tela', async () => {
     await renderWithRouter(<App />, { route: '/drinks/17222' });
     await waitFor(() => {
@@ -73,6 +74,35 @@ describe('Teste alerta de link copiado', async () => {
       setTimeout(() => {
         expect(screen.getByText('Copied link!')).toBeInTheDocument();
       }, 2000);
+    });
+  });
+  it('alerta de link copiado aparece na tela', async () => {
+    await renderWithRouter(<App />, { route: routeDetail });
+    await waitFor(() => {
+      const shareBtn = screen.getByTestId('share-btn');
+      userEvent.click(shareBtn);
+      setTimeout(() => {
+        expect(screen.getByText('Copied link!')).toBeInTheDocument();
+      }, 2000);
+    });
+  });
+  test('renders loading message while fetching data', async () => {
+    await renderWithRouter(<App />, { route: routeDetail });
+
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+  });
+  test('displays "Link copied!" message after clicking share button', async () => {
+    await renderWithRouter(<App />, { route: routeDetail });
+
+    await waitFor(() => {
+      const shareBtn = screen.getByTestId('share-btn');
+      act(() => {
+        userEvent.click(shareBtn);
+      });
+
+      setTimeout(() => {
+        expect(screen.queryByTestId('copied-message')).toBeInTheDocument();
+      }, 1000);
     });
   });
 });
