@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { CarouselCard } from './CarouselCard';
-import { setOnStorage } from '../services/localStorage';
+import StartRecipe from './StartRecipe';
+// import localStorage from '../services/localStorage';
 import HeartButton from './HeartButton';
 import shareIcon from '../images/shareIcon.svg';
 
 export function DetailsCard() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { recipeID } = useParams();
+  const { id } = useParams<{ id: string }>();
   const isMeals = pathname.includes('/meals');
   const [copied, setCopied] = useState(false);
 
@@ -18,34 +19,32 @@ export function DetailsCard() {
 
     if (isMeals) {
       fetchFunction = async () => {
-        const meals = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
+        const meals = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
         const mealsJson = await meals.json();
         setRecipesDetail(mealsJson.meals[0]);
-        setOnStorage('recipeDetail', mealsJson.meals[0]);
       };
     } else {
       fetchFunction = async () => {
-        const drinks = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${recipeID}`);
+        const drinks = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
         const drinksJson = await drinks.json();
         setRecipesDetail(drinksJson.drinks[0]);
-        setOnStorage('recipeDetail', drinksJson.drinks[0]);
       };
     }
 
     fetchFunction();
-  }, [isMeals, recipeID]);
+  }, [isMeals, id]);
 
   if (!recipeDetail) {
     return <div>Loading...</div>;
   }
 
-  const handleStartRecipe = () => {
-    if (recipeDetail && isMeals) {
-      navigate(`/meals/${recipeID}/in-progress`, { state: { recipeDetail } });
-    } else if (recipeDetail && !isMeals) {
-      navigate(`/drinks/${recipeID}/in-progress`, { state: { recipeDetail } });
-    }
-  };
+  // const handleStartRecipe = () => {
+  //   if (recipeDetail && isMeals) {
+  //     navigate(`/meals/${recipeID}/in-progress`, { state: { recipeDetail } });
+  //   } else if (recipeDetail && !isMeals) {
+  //     navigate(`/drinks/${recipeID}/in-progress`, { state: { recipeDetail } });
+  //   }
+  // };
 
   const handleCopyToClipboard = async () => {
     const link = window.location.href;
@@ -132,14 +131,8 @@ export function DetailsCard() {
 
       <h3>Recommended</h3>
       <CarouselCard />
+      <StartRecipe />
 
-      <button
-        className="startBtn"
-        data-testid="start-recipe-btn"
-        onClick={ handleStartRecipe }
-      >
-        Start Recipe
-      </button>
     </div>
 
   );

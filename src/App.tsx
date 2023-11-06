@@ -9,7 +9,7 @@ import { LayoutH } from './components/LayoutH';
 import { DetailsCard } from './components/RecipeDetails';
 import { ContextProvider } from './context/maincontext-provider';
 import { Recipes } from './components/Recipes';
-import InProgress from './components/InProgressRecipe';
+import RecipeInProgress from './components/RecipeInProgress';
 
 function App() {
   return (
@@ -25,10 +25,10 @@ function App() {
           <Route path="/done-recipes" element={ <DoneRecipes /> } />
           <Route path="/favorite-recipes" element={ <FavoriteRecipes /> } />
         </Route>
-        <Route element={ <DetailsCard /> } path="/meals/:recipeID" />
-        <Route element={ <DetailsCard /> } path="/drinks/:recipeID" />
-        <Route element={ <InProgress /> } path="/meals/:recipeID/in-progress" />
-        <Route element={ <InProgress /> } path="/drinks/:recipeID/in-progress" />
+        <Route element={ <DetailsCard /> } path="/meals/:id" />
+        <Route element={ <DetailsCard /> } path="/drinks/:id" />
+        <Route element={ <RecipeInProgress /> } path="/meals/:id/in-progress" />
+        <Route element={ <RecipeInProgress /> } path="/drinks/:id/in-progress" />
       </Routes>
     </ContextProvider>
   );

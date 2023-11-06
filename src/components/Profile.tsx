@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { getFromStorage } from '../services/localStorage';
+import { getFromStorage } from '../services/useLocalStorage';
 
 export function Profile() {
   const navigate = useNavigate();

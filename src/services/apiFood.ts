@@ -36,3 +36,10 @@ export const mealsFetchByCategory = async (category: string) => {
   const limitedResults = mealsJson.meals.slice(0, 12);
   return limitedResults;
 };
+
+export const mealsFetchById = async (id: string | undefined) => {
+  const meals = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${id}`);
+  const mealsJson = await meals.json();
+  const limitedResults = mealsJson.meals.slice(0, 12);
+  return limitedResults;
+};

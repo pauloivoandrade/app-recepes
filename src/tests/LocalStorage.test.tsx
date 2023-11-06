@@ -1,4 +1,4 @@
-import { setOnStorage, getFromStorage } from '../services/localStorage';
+import { setOnStorage, getFromStorage } from '../services/useLocalStorage';
 
 describe('LocalStorage functions', () => {
   it('deve definir e obter um valor do armazenamento local', () => {
